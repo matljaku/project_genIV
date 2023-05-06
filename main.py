@@ -4,7 +4,7 @@ sys.path.insert(0, 'lib')
 import prop_and_corr as pc
 import parameters as p
 
-#Ta tlustá kráva vedle je nechutná
+# Hovno prdel sračka
 # Solve the hoop stress correlation
 coeff = np.array([pc.a_hoop, pc.b_hoop, pc.c_hoop])
 roots = np.roots(coeff)
