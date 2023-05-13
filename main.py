@@ -4,7 +4,6 @@ sys.path.insert(0, 'lib')
 import prop_and_corr as pc
 import parameters as p
 
-# Hovno prdel sračka
 # Solve the hoop stress correlation
 coeff = np.array([pc.a_hoop, pc.b_hoop, pc.c_hoop])
 roots = np.roots(coeff)
@@ -68,13 +67,17 @@ print(A_flow*1e4)
 #print(((A_flow/D_h)**2)*(((4*np.sqrt(3))/np.pi)-1)-((np.pi*A_flow)/(4)))
 r_rod = (2/np.pi)*(((A_flow)/(D_h)) + np.sqrt(((A_flow/D_h)**2)*(((4*np.sqrt(3))/np.pi)-1)-((np.pi*A_flow)/(4))))
 r_wire = (2/np.pi)*(((A_flow)/(D_h)) - np.sqrt(((A_flow/D_h)**2)*(((4*np.sqrt(3))/np.pi)-1)-((np.pi*A_flow)/(4))))
+delta_plenum = 0.2 * 1e-3
 pitch = 2*r_rod + 2*r_wire
-print("r_rod: [mm]")
-print(r_rod*1e3)
-print("r_wire: [mm]")
-print(r_wire*1e3)
-print("pitch: [mm]")
-print(pitch*1e3)
+r_pellet = r_rod * (1 - 1/p.r_delta_clad) - delta_plenum
+print("D_rod: [cm]")
+print(2*r_rod*1e2)
 
-#print(pc.rho_fuel(1200)*0.95)
-print(pc.rho_pb(600))
+print("D_wire: [cm]")
+print(2*r_wire*1e2)
+
+print("r_pellet: [mm]")
+print(r_pellet*1e3)
+print("pitch: [cm]")
+print(pitch*1e2)
+

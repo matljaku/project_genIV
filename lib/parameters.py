@@ -2,7 +2,7 @@
 Q_peak_channel = 5000 #[W]
 DeltaT_core = 100.0 # [K] - Coolant temperature difference out to in 
 Q_frac = 0.1 # Q_res/Q_nom [-]
-kappa = 2.0 # Assuming that the DeltaT_core is going to double during 
+kappa = 1.0 # Assuming that the DeltaT_core is going to double during 
             # during the transient
 
 H_dc = 2.0 # [m]   - the height of the dip coolers
