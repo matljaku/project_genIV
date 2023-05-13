@@ -1,0 +1,116 @@
+% Pin cell input for reactivity swing calculation 
+% Infinite lattice model (Pb + UN fuel)
+
+
+set acelib "/codes/SERPENT/xsdata/jeff311.xsdata"
+set declib "/codes/SERPENT/xsdata/sss_jeff311.dec"
+set nfylib "/codes/SERPENT/xsdata/sss_jeff311.nfy"
+
+%plot 3 5000 5000
+%plot 2 5000 5000 0.0 -5 5 -170 170
+
+% The fuel is UN with lead as a coolant
+	
+%----------JUST ONE PIN LATTICE ---------------
+
+pin p1
+fuel 0.473   % Pellet radius
+helium 0.493 % Gap is 0.02 cm filled with helium
+clad 0.5403  % Cladding thickness is 0.473 mm 
+lead 		 % Lead is used as a coolant
+
+surf rod hexxc 0.0 0.0 0.63704 % For the pitch = 1.27408 cm (P/D = 1.16)
+		
+surf pz1 pz 50
+surf pz2 pz -50
+surf pz3 pz 150
+surf pz4 pz -150
+
+cell c1 0 fill p1 -rod -pz1 pz2
+cell c2 0 outside rod -pz1 pz2
+cell c3 0 outside pz3
+cell c4 0 outside -pz4
+cell c5 0 lead pz1 -pz3
+cell c6 0 lead -pz2 pz4
+
+%----------------------------------------------
+
+%(UPuAm)N fuel with 14% RGPu and 5% 241Am
+mat fuel -13.5	vol 70.28 burn 1 % 95 % TD of UN 
+92234.09c	3.63528E-06	%234U
+92235.09c	8.10000E-04	%235U
+92238.09c	4.04186E-01	%238U
+7014.09c	2.95000E-02	%14N
+7015.09c	4.70500E-01	%15N
+94238.09c	2.45000E-03	%238Pu
+94239.09c	3.63300E-02	%239Pu
+94240.09c	1.66600E-02	%240Pu
+94241.09c	9.03000E-03	%241Pu
+94242.09c	5.53000E-03	%242Pu
+95241.09c	2.50000E-02	%241Am
+
+
+mat helium -0.000491 
+2003.09c	-0.00000101	%3He
+2004.09c	-0.99999900	%4He
+
+mat clad    -8.00             % Cladding steel (15-15Ti)
+  6000.06c   -0.09
+ 14000.06c   -0.85
+ 22000.06c   -0.40
+ 24000.06c  -14.50
+ 25055.06c   -1.50
+ 26000.06c  -65.35
+ 28000.06c  -15.50
+ 42000.06c   -1.50
+
+mat lead  -10.471 % Density calculated for 485°C. (Average temp of Pb in reactor)
+82204.06c  -0.0061
+82206.06c  -0.1074
+82207.06c  -0.0985
+82208.06c  -0.2328
+
+set bc 3			 % Periodic boundary conditions
+set pcc 2			 % Set predictor and corrector
+set power 6672.12    % Average power of fuel pin
+
+set pop 2000 200 100
+set printm 1
+
+dep butot 0.1 1 6 12 18 24 30 36 42 48 54 60 66 % Cumulative burnup MWd/kgHM (1 BU = 0.1 BU_FIMA)
+
+
+%surf p1 cylz 0 0 0.473  -50 50    % Pellet radius
+%surf p2 cylz 0 0 0.493  -50 50    % Gap is 0.02 cm filled with heliumhelium around the fuel
+%surf p3 cylz 0 0 0.5403  -50 50   % Cladding thickness is 0.473 mm 
+%
+%pin pb
+%lead
+%
+%
+%lat  lattice 2   0.0 0.0 17 17 1.27408  % Fuel pin lattice
+%pb pb pb pb pb pb pb pb pb pb pb pb pb pb pb pb pb
+% pb pb pb pb pb pb pb pb p1 p1 p1 p1 p1 p1 p1 p1 pb
+%  pb pb pb pb pb pb pb p1 p1 p1 p1 p1 p1 p1 p1 p1 pb
+%   pb pb pb pb pb pb p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 pb
+%    pb pb pb pb pb p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 pb
+%     pb pb pb pb p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 pb
+%      pb pb pb p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 pb
+%       pb pb p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 pb
+%        pb p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 pb
+%         pb p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 pb pb
+%          pb p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 pb pb pb
+%           pb p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 pb pb pb pb
+%            pb p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 pb pb pb pb pb
+%             pb p1 p1 p1 p1 p1 p1 p1 p1 p1 p1 pb pb pb pb pb pb
+%              pb p1 p1 p1 p1 p1 p1 p1 p1 p1 pb pb pb pb pb pb pb
+%               pb p1 p1 p1 p1 p1 p1 p1 p1 pb pb pb pb pb pb pb pb
+%                pb pb pb pb pb pb pb pb pb pb pb pb pb pb pb pb pb
+%	
+%
+%surf 1 hexyc 0.0 0.0  7.84  % Wrapper tube inner radius
+%surf 2 hexyc 0.0 0.0  8.14   % Wrapper tube outer radius
+%
+%cell 4 0 fill lattice  -1       % Pin lattice with UN fuel 
+%cell 5 0 steel     1 -2    	 % Wrapper tube
+%cell 6 0 lead       2           % Gap between assemblies
