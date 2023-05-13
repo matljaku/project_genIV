@@ -7,6 +7,7 @@ import parameters as p
 # Solve the hoop stress correlation
 coeff = np.array([pc.a_hoop, pc.b_hoop, pc.c_hoop])
 roots = np.roots(coeff)
+#něco
 if roots[0] > roots[1]:
     sigma_hoop = roots[0]
 else:
