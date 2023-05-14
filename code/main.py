@@ -86,7 +86,7 @@ d = 2.13 * p.D_avg # extrapolation length [m]
 H_ext = p.H_fuel *1e-2 + 2*d
 R_ext = p.R + d
 
-#Averiging over axial and radial disribution 
+#Averaging over axial and radial disribution 
 #Q_avg = (p.Q_peak_channel * 2) * 2*R_ext/(2.405*p.R)*jv(1, (2.405*p.R)/(R_ext)) * 2*H_ext/(p.H_fuel*1e-2 * np.pi)*np.sin(np.pi*p.H_fuel*1e-2/(2*H_ext))# [W]
 
 #!!! Better values are obtained by averiging only by axial distribution
@@ -108,4 +108,5 @@ MeVtoJ = 1.602*1e-13
 #BU and BU_FIMA conversion (FIMA/BU)
 C = (3600*24*1e6)/1000*1/(N_A*MeVtoJ)*(M_fuel/E_avg)
 #print (C)
+print("conversion factor (FIMA/BU)")
 print (C*100)
